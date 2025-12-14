@@ -27,7 +27,7 @@ void setup() {
   
   // === 초기화 (닫힘/꺼짐) ===
   // 릴레이가 Low Trigger(LOW일 때 켜짐) 방식이라고 가정하고 HIGH(꺼짐)로 시작
-  digitalWrite(PIN_PUMP, HIGH); 
+  digitalWrite(PIN_PUMP, LOW); 
   myservo.write(ANGLE_CLOSE);
 }
 
@@ -61,7 +61,7 @@ void loop() {
         
         // 화재 발생 시 동작
         myservo.write(ANGLE_OPEN);    // 창문 열기
-        digitalWrite(PIN_PUMP, LOW);  // 펌프 켜기 (Low Trigger: LOW가 ON)
+        digitalWrite(PIN_PUMP, HIGH);  // 펌프 켜기 (Low Trigger: LOW가 ON)
       }
     }
     
@@ -71,7 +71,7 @@ void loop() {
       // 화재 상태였다가 꺼지는 경우에만 복구 절차 실행
       if (is_fire_active == true) {
         // 1. 펌프 즉시 끄기
-        digitalWrite(PIN_PUMP, HIGH); // Relay OFF
+        digitalWrite(PIN_PUMP, LOW); // Relay OFF
         
         // 2. 잔여 물기 제거 대기 (파이썬이 멈추지 않게 딜레이는 신중히 사용)
         // 여기서 delay를 쓰면 2초간 센서값을 못 보냅니다. 
@@ -85,7 +85,7 @@ void loop() {
       }
       else {
         // 평소 상태 유지
-        digitalWrite(PIN_PUMP, HIGH);
+        digitalWrite(PIN_PUMP, LOW);
         myservo.write(ANGLE_CLOSE);
       }
     }
